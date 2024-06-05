@@ -1,0 +1,45 @@
+@import './theme';
+
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.board-row {
+  display: flex;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: $dark-light;
+  color: $grey-light;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .board {
+    grid-template-columns: repeat(3, 80px);
+  }
+
+  .square {
+    width: 80px;
+    height: 80px;
+  }
+}
