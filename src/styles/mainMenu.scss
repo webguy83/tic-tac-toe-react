@@ -71,7 +71,6 @@
   .btn {
     padding: 1.5rem 2rem 2.2rem;
     border-radius: 0.5rem;
-    margin: 1rem 0;
     font-size: 1.6rem;
     width: 100%;
     font-weight: 700;
@@ -83,6 +82,7 @@
       color: $dark;
       box-shadow: inset 0px -8px 0px #cc8b13;
       border-radius: 1.5rem;
+      margin-bottom: 2rem;
 
       &:hover {
         background-color: $accent-light;

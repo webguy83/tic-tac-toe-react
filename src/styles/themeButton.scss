@@ -1,0 +1,39 @@
+@import './theme';
+
+.themed-button {
+  padding: 1.4rem;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+
+  &.primary {
+    background-color: $accent;
+    color: $dark;
+    box-shadow: inset 0px -0.4rem 0px #cc8b13;
+    &:hover {
+      background-color: $accent-light;
+    }
+  }
+
+  &.secondary {
+    background-color: $secondary;
+    color: $dark;
+    &:hover {
+      background-color: darken($secondary, 10%);
+    }
+  }
+
+  &.tertiary {
+    background-color: $grey;
+    color: $dark;
+    box-shadow: inset 0px -0.4rem 0px #6b8997;
+    &:hover {
+      background-color: $grey-light;
+    }
+  }
+}

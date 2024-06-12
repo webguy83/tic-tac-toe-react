@@ -5,33 +5,76 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  max-width: 46rem;
+  width: 100%;
+  margin: auto;
 
   .game-header {
     display: flex;
     justify-content: space-between;
+    gap: 1.9rem;
     width: 100%;
-    padding: 1rem 2rem;
+
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .player-indicator {
+      display: flex;
+      align-self: center;
+
+      .icon {
+        width: 3rem;
+        margin-right: 0.5rem;
+      }
+    }
+
+    .turn-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.4rem 0 1.8rem;
+      border-radius: 1rem;
+      background-color: $dark-light;
+      box-shadow: inset 0px -0.4rem 0px #10212a;
+
+      &-icon {
+        fill: $grey;
+        margin-right: 0.6rem;
+      }
+
+      img {
+        margin-right: 0.5rem;
+      }
+
+      span {
+        color: $grey;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+    }
 
     .icon {
-      width: 2.4rem;
-      height: 2.4rem;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
 
-      &.restart {
-        cursor: pointer;
-      }
+    > div {
+      flex: 1;
     }
   }
 
   .board {
     display: grid;
-    grid-template-columns: repeat(3, 10rem);
-    grid-gap: 1rem;
+    grid-template-columns: repeat(3, minmax(7rem, 1fr));
+    grid-gap: 1.9rem;
     justify-content: center;
-    margin: 2rem auto;
+    margin: 1.9rem 0;
+    width: 100%;
 
     .square {
-      width: 10rem;
-      height: 10rem;
+      aspect-ratio: 1/1;
       background-color: $dark-light;
       color: $grey-light;
       font-size: 2.4rem;
@@ -39,19 +82,83 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      border-radius: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease-in-out;
+      box-shadow: inset 0px -0.8rem 0px #10212a;
+
+      & > img {
+        width: 60%;
+        margin-top: -0.8rem;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 60%;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      &.x-hover::before {
+        background-image: url('../assets/icon-x-outline.svg');
+        background-position-y: 40%;
+      }
+
+      &.o-hover::before {
+        background-image: url('../assets/icon-o-outline.svg');
+        background-position-y: 40%;
+      }
+
+      &:hover::before {
+        opacity: 1;
+      }
+
+      &.occupied {
+        background-image: none;
+        cursor: default;
+        pointer-events: none;
+        &::before {
+          opacity: 0;
+        }
+      }
     }
   }
 
   .game-footer {
     display: flex;
-    justify-content: space-around;
+    gap: 1.9rem;
     width: 100%;
-    padding: 1rem 2rem;
 
     .score {
+      flex: 1;
       background-color: $dark-light;
-      padding: 1rem 2rem;
-      border-radius: 0.5rem;
+      padding: 1rem 0;
+      border-radius: 1.5rem;
+      min-width: 6rem;
+
+      span {
+        display: block;
+        font-size: 1.6rem;
+        color: $dark;
+
+        &:first-child {
+          margin-bottom: 0.5rem;
+          font-size: 1.4rem;
+        }
+
+        &:last-child {
+          font-size: 2rem;
+          font-weight: 700;
+        }
+      }
 
       &.x-score {
         background-color: $primary;
@@ -65,16 +172,5 @@
         background-color: $accent;
       }
     }
-  }
-}
-
-@media (max-width: 600px) {
-  .board {
-    grid-template-columns: repeat(3, 8rem);
-  }
-
-  .square {
-    width: 8rem;
-    height: 8rem;
   }
 }
