@@ -12,6 +12,19 @@
   align-items: center;
   z-index: 1000;
   text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &.close {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .dialog-container {
@@ -23,11 +36,10 @@
 }
 
 .dialog-content {
-  border-radius: 0.5rem;
   max-width: 50rem;
   width: 100%;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeInContent 0.3s ease-in-out;
 
   .dialog-message {
     color: $grey-light;
@@ -45,6 +57,32 @@
     button {
       min-width: 8rem;
       text-transform: uppercase;
+    }
+  }
+
+  @keyframes fadeInContent {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  &.closing-content {
+    animation: fadeOutContent 0.3s ease-in-out forwards;
+  }
+
+  @keyframes fadeOutContent {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-20px);
+      opacity: 0;
     }
   }
 }

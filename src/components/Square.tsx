@@ -6,7 +6,7 @@ interface SquareProps {
 
 const Square: React.FC<SquareProps> = ({ value }) => {
   return (
-    <button className='square' aria-label={`Square ${value}`}>
+    <button type='button' className='square' aria-label={`Square ${value}`}>
       {value}
     </button>
   );

@@ -13,8 +13,6 @@ interface DialogProps {
 }
 
 const Dialog: React.FC<DialogProps> = ({ message, confirmText, cancelText, onConfirm, onCancel, isOpen, closeOnBackgroundClick = true }) => {
-  if (!isOpen) return null;
-
   const handleBackgroundClick = (event: React.MouseEvent) => {
     if (closeOnBackgroundClick) {
       onCancel();
@@ -22,11 +20,11 @@ const Dialog: React.FC<DialogProps> = ({ message, confirmText, cancelText, onCon
   };
 
   const handleDialogClick = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent click event from bubbling up to the background
+    event.stopPropagation();
   };
 
   return (
-    <div className='dialog-overlay' onClick={handleBackgroundClick}>
+    <div className={`dialog-overlay ${isOpen ? 'open' : 'close'}`} onClick={handleBackgroundClick}>
       <div className='dialog-container' onClick={handleDialogClick} role='dialog' aria-modal='true' aria-labelledby='dialog-message'>
         <div className='dialog-content'>
           <p id='dialog-message' className='dialog-message'>
