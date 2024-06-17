@@ -1,39 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import '../styles/game.scss';
 import iconX from '../assets/icon-x.svg';
 import iconO from '../assets/icon-o.svg';
 import iconRestart from '../assets/icon-restart.svg';
 import ThemedButton from './ThemeButton';
-import Dialog from './Dialog'; // Ensure this import is correct
+import Dialog from './Dialog';
+import { useGameLogic } from '../hooks/useGameLogic';
+import { useDialog } from '../hooks/useDialog';
 
 interface GameProps {
   restartGame: () => void;
+  playerChoice: 'X' | 'O';
+  gameMode: 'cpu' | 'player';
 }
 
-const Game: React.FC<GameProps> = ({ restartGame }) => {
-  const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
-  const [board, setBoard] = useState<Array<'X' | 'O' | null>>(Array(9).fill(null));
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
+  const {
+    currentPlayer,
+    board,
+    winner,
+    winningSquares,
+    isGameOver,
+    handleSquareClick,
+  } = useGameLogic({ playerChoice });
 
-  const switchPlayer = (index: number) => {
-    if (board[index]) return;
-
-    const newBoard = [...board];
-    newBoard[index] = currentPlayer;
-    setBoard(newBoard);
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-  };
-
-  const openDialog = () => setIsDialogOpen(true);
-  const closeDialog = () => setIsDialogOpen(false);
+  const {
+    isDialogOpen,
+    dialogMessage,
+    confirmText,
+    cancelText,
+    openDialog,
+    closeDialog,
+  } = useDialog();
 
   const handleRestartConfirm = () => {
     restartGame();
     closeDialog();
   };
 
+  const handleOpenDialog = () => {
+    if (isGameOver) return;
+    openDialog('Restart Game?', 'Yes, Restart', 'No, Cancel');
+  };
+
+  useEffect(() => {
+    if (winner || isGameOver) {
+      const message = winner ? `${winner} Wins!` : "It's a Tie!";
+      const confirm = 'Play Again';
+      const cancel = 'Exit';
+
+      setTimeout(() => {
+        openDialog(message, confirm, cancel);
+      }, 1000);
+    }
+  }, [winner, isGameOver, openDialog]);
+
+  const getFooterText = () => {
+    if (gameMode === 'cpu') {
+      return playerChoice === 'X'
+        ? { xText: 'X (YOU)', oText: 'O (CPU)' }
+        : { xText: 'X (CPU)', oText: 'O (YOU)' };
+    } else {
+      return playerChoice === 'X'
+        ? { xText: 'X (P1)', oText: 'O (P2)' }
+        : { xText: 'X (P2)', oText: 'O (P1)' };
+    }
+  };
+
+  const { xText, oText } = getFooterText();
+
   return (
-    <div className='game'>
+    <div className={`game ${isGameOver ? 'disabled' : ''}`}>
+      {isGameOver && <div className='interaction-overlay' />} {/* Overlay to prevent interactions */}
       <header className='game-header'>
         <div className='player-indicator'>
           <img src={iconX} alt='X' className='icon' />
@@ -42,7 +80,7 @@ const Game: React.FC<GameProps> = ({ restartGame }) => {
         <div className='turn-indicator'>
           {currentPlayer === 'X' ? (
             <svg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' className='turn-indicator-icon'>
-              <path transform='scale(0.25)' d='M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z' fill-rule='evenodd' />
+              <path transform='scale(0.25)' d='M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z' fillRule='evenodd' />
             </svg>
           ) : (
             <svg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' className='turn-indicator-icon'>
@@ -52,40 +90,47 @@ const Game: React.FC<GameProps> = ({ restartGame }) => {
           <span>TURN</span>
         </div>
         <div className='button-container'>
-          <ThemedButton onClick={openDialog} variant='tertiary'>
+          <ThemedButton onClick={handleOpenDialog} variant='tertiary'>
             <img src={iconRestart} alt='Restart' className='icon restart' />
           </ThemedButton>
         </div>
       </header>
       <main className='board'>
         {board.map((value, index) => (
-          <button key={index} type='button' className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover`}`} onClick={() => switchPlayer(index)} title={`Square ${index + 1}`}>
+          <button
+            key={index}
+            type='button'
+            className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover`} ${winningSquares.includes(index) ? 'winner' : ''}`}
+            onClick={() => handleSquareClick(index)}
+            title={`Square ${index + 1}`}
+            disabled={!!winner} // Disable button if there is a winner
+          >
             {value && <img src={value === 'X' ? iconX : iconO} alt={value} />}
           </button>
         ))}
       </main>
       <footer className='game-footer'>
         <div className='score x-score'>
-          <span>X (YOU)</span>
-          <span>14</span>
+          <span>{xText}</span>
+          <span>0</span>
         </div>
         <div className='score ties-score'>
           <span>TIES</span>
-          <span>32</span>
+          <span>0</span>
         </div>
         <div className='score o-score'>
-          <span>O (CPU)</span>
-          <span>11</span>
+          <span>{oText}</span>
+          <span>0</span>
         </div>
       </footer>
       <Dialog
-        message='Restart Game?'
-        confirmText='Yes, Restart'
-        cancelText='No, Cancel'
+        message={dialogMessage}
+        confirmText={confirmText}
+        cancelText={cancelText}
         onConfirm={handleRestartConfirm}
         onCancel={closeDialog}
         isOpen={isDialogOpen}
-        closeOnBackgroundClick={true} // Add this prop
+        closeOnBackgroundClick={!isGameOver} // Do not allow closing by clicking outside if game is over
       />
     </div>
   );

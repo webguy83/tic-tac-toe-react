@@ -130,6 +130,11 @@
           opacity: 0;
         }
       }
+
+      &.winner {
+        background-color: lighten($primary, 20%);
+        transition: background-color 0.3s ease-in-out;
+      }
     }
   }
 
