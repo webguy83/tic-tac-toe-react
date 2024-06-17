@@ -22,6 +22,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
     winningSquares,
     isGameOver,
     handleSquareClick,
+    resetBoard
   } = useGameLogic({ playerChoice });
 
   const {
@@ -29,12 +30,18 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
     dialogMessage,
     confirmText,
     cancelText,
+    dialogWinner,
     openDialog,
     closeDialog,
   } = useDialog();
 
   const handleRestartConfirm = () => {
     restartGame();
+    closeDialog();
+  };
+
+  const handleNextRound = () => {
+    resetBoard();
     closeDialog();
   };
 
@@ -45,15 +52,28 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
 
   useEffect(() => {
     if (winner || isGameOver) {
-      const message = winner ? `${winner} Wins!` : "It's a Tie!";
-      const confirm = 'Play Again';
-      const cancel = 'Exit';
+      let message: string;
+      let dialogWinner: 'X' | 'O' | null = null;
+      
+      if (gameMode === 'cpu') {
+        message = winner ? `You ${winner === playerChoice ? 'Win!' : 'Lose...'}` : "Round Tied";
+      } else {
+        if (winner) {
+          message = `Player ${winner === playerChoice ? '1' : '2'} Wins!`;
+          dialogWinner = winner;
+        } else {
+          message = "Round Tied";
+        }
+      }
+
+      const confirm = 'Next Round';
+      const cancel = 'Quit';
 
       setTimeout(() => {
-        openDialog(message, confirm, cancel);
+        openDialog(message, confirm, cancel, dialogWinner);
       }, 1000);
     }
-  }, [winner, isGameOver, openDialog]);
+  }, [winner, isGameOver, gameMode, playerChoice, openDialog]);
 
   const getFooterText = () => {
     if (gameMode === 'cpu') {
@@ -71,7 +91,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
 
   return (
     <div className={`game ${isGameOver ? 'disabled' : ''}`}>
-      {isGameOver && <div className='interaction-overlay' />} {/* Overlay to prevent interactions */}
+      {isGameOver && <div className='interaction-overlay' />}
       <header className='game-header'>
         <div className='player-indicator'>
           <img src={iconX} alt='X' className='icon' />
@@ -127,10 +147,11 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
         message={dialogMessage}
         confirmText={confirmText}
         cancelText={cancelText}
-        onConfirm={handleRestartConfirm}
-        onCancel={closeDialog}
+        onConfirm={winner ? handleNextRound : handleRestartConfirm}
+        onCancel={winner ? restartGame : closeDialog}
         isOpen={isDialogOpen}
-        closeOnBackgroundClick={!isGameOver} // Do not allow closing by clicking outside if game is over
+        closeOnBackgroundClick={!isGameOver}
+        dialogWinner={dialogWinner}
       />
     </div>
   );

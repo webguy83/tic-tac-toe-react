@@ -31,7 +31,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 4.5rem 0;
+  padding: 4.5rem 1rem;
   background-color: $dark-light;
 }
 
@@ -40,6 +40,48 @@
   width: 100%;
   text-align: center;
   animation: fadeInContent 0.3s ease-in-out;
+
+  .winner-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 2rem;
+
+    .winner-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+
+      img {
+        width: clamp(3rem, 10vw, 6.4rem);
+      }
+    }
+
+    h1 {
+      color: $grey;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: .1rem;
+    }
+
+    p {
+      color: $grey-light;
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 700;
+      letter-spacing: 0.25rem;
+    }
+
+    &.winner-x p {
+      color: $primary;
+    }
+
+    &.winner-o p {
+      color: $accent;
+    }
+  }
 
   .dialog-message {
     color: $grey-light;

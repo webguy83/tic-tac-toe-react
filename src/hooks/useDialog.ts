@@ -5,11 +5,13 @@ export const useDialog = () => {
   const [dialogMessage, setDialogMessage] = useState('');
   const [confirmText, setConfirmText] = useState('');
   const [cancelText, setCancelText] = useState('');
+  const [dialogWinner, setDialogWinner] = useState<'X' | 'O' | null>(null);
 
-  const openDialog = (message: string, confirm: string, cancel: string) => {
+  const openDialog = (message: string, confirm: string, cancel: string, winner?: 'X' | 'O' | null) => {
     setDialogMessage(message);
     setConfirmText(confirm);
     setCancelText(cancel);
+    setDialogWinner(winner || null);
     setIsDialogOpen(true);
   };
 
@@ -22,6 +24,7 @@ export const useDialog = () => {
     dialogMessage,
     confirmText,
     cancelText,
+    dialogWinner,
     openDialog,
     closeDialog,
   };

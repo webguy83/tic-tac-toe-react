@@ -17,13 +17,17 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
     [0, 4, 8], [2, 4, 6]  // diagonals
   ], []);
 
-  useEffect(() => {
+  const resetBoard = useCallback(() => {
     setBoard(Array(9).fill(null));
     setCurrentPlayer('X'); // X always starts
     setWinner(null);
     setWinningSquares([]);
     setIsGameOver(false);
-  }, [playerChoice]);
+  }, []);
+
+  useEffect(() => {
+    resetBoard();
+  }, [playerChoice, resetBoard]);
 
   const checkWinner = useCallback(() => {
     for (const condition of winConditions) {
@@ -61,5 +65,6 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
     winningSquares,
     isGameOver,
     handleSquareClick,
+    resetBoard,
   };
 };
