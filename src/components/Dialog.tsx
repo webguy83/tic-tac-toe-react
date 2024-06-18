@@ -28,15 +28,7 @@ const Dialog: React.FC<DialogProps> = ({ message, confirmText, cancelText, onCon
     event.stopPropagation();
   };
 
-  // Determine the message based on the game mode and dialog winner
-  const getMessage = () => {
-    if (gameMode === 'cpu') {
-      return dialogWinner === playerChoice ? 'You won!' : 'Oh no, you lost...';
-    } else {
-      const winningPlayer = dialogWinner === playerChoice ? '1' : '2';
-      return `Player ${winningPlayer} wins!`;
-    }
-  };
+  const winningPlayer = dialogWinner === playerChoice ? '1' : '2';
 
   return (
     <div className={`dialog-overlay ${isOpen ? 'open' : 'close'}`} onClick={handleBackgroundClick}>
@@ -44,11 +36,23 @@ const Dialog: React.FC<DialogProps> = ({ message, confirmText, cancelText, onCon
         <div className='dialog-content'>
           {dialogWinner && (
             <div className={`winner-message winner-${dialogWinner.toLowerCase()}`}>
-              <h2>{getMessage()}</h2>
-              <div className='winner-header'>
-                <img src={dialogWinner === 'X' ? iconX : iconO} alt={dialogWinner} />
-                <h1>TAKES THE ROUND</h1>
-              </div>
+              {gameMode === 'player' ? (
+                <>
+                  <h2>PLAYER {winningPlayer} WINS!</h2>
+                  <div className='winner-header'>
+                    <img src={dialogWinner === 'X' ? iconX : iconO} alt={dialogWinner} />
+                    <h1>TAKES THE ROUND</h1>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2>{dialogWinner === playerChoice ? 'You won!' : 'Oh no, you lost...'}</h2>
+                  <div className='winner-header'>
+                    <img src={dialogWinner === 'X' ? iconX : iconO} alt={dialogWinner} />
+                    <h1>TAKES THE ROUND</h1>
+                  </div>
+                </>
+              )}
             </div>
           )}
           {!dialogWinner && (

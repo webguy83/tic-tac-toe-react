@@ -1,13 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/game.scss';
 import iconX from '../assets/icon-x.svg';
 import iconO from '../assets/icon-o.svg';
 import iconRestart from '../assets/icon-restart.svg';
-import ThemedButton from './ThemeButton';
 import Dialog from './Dialog';
 import { useGameLogic } from '../hooks/useGameLogic';
 import { useDialog } from '../hooks/useDialog';
 import { useScoreTracker } from '../hooks/useScoreTracker';
+import ThemedButton from './ThemeButton';
 
 interface GameProps {
   restartGame: () => void;
@@ -18,41 +18,52 @@ interface GameProps {
 const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
   const { currentPlayer, board, winner, winningSquares, isGameOver, handleSquareClick, resetBoard } = useGameLogic({ playerChoice });
 
-  const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, openDialog, closeDialog } = useDialog();
+  const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, isRestartDialog, openDialog, closeDialog } = useDialog();
 
   const { scores, updateScore } = useScoreTracker();
 
-  const handleNextRound = useCallback(() => {
+  const [flashX, setFlashX] = useState(false);
+  const [flashO, setFlashO] = useState(false);
+  const [flashTies, setFlashTies] = useState(false);
+
+  const handleNextRound = () => {
     resetBoard();
     closeDialog();
-  }, [resetBoard, closeDialog]);
+  };
 
-  const handleOpenDialog = useCallback(() => {
+  const handleOpenDialog = () => {
     if (isGameOver) return;
-    openDialog('Restart Game?', 'Yes, Restart', 'No, Cancel', null);
-  }, [isGameOver, openDialog]);
+    openDialog('Restart Game?', 'Yes, Restart', 'No, Cancel', null, true);
+  };
 
   useEffect(() => {
-    if (isGameOver) {
-      if (winner !== null) {
+    if (winner !== null || isGameOver) {
+      if (winner) {
         updateScore(winner);
+        if (winner === 'X') setFlashX(true);
+        if (winner === 'O') setFlashO(true);
+
         setTimeout(() => {
           openDialog(`Player ${winner === playerChoice ? '1' : '2'} Wins!`, 'Next Round', 'Quit', winner);
+          setFlashX(false);
+          setFlashO(false);
         }, 1000);
       } else {
         updateScore(null);
+        setFlashTies(true);
         openDialog('Round Tied', 'Next Round', 'Quit', null);
+        setFlashTies(false);
       }
     }
-  }, [isGameOver, winner, playerChoice, openDialog, updateScore]);
+  }, [winner, isGameOver, gameMode, playerChoice, openDialog, updateScore]);
 
-  const getFooterText = useCallback(() => {
+  const getFooterText = () => {
     if (gameMode === 'cpu') {
       return playerChoice === 'X' ? { xText: 'X (YOU)', oText: 'O (CPU)' } : { xText: 'X (CPU)', oText: 'O (YOU)' };
     } else {
       return playerChoice === 'X' ? { xText: 'X (P1)', oText: 'O (P2)' } : { xText: 'X (P2)', oText: 'O (P1)' };
     }
-  }, [gameMode, playerChoice]);
+  };
 
   const { xText, oText } = getFooterText();
 
@@ -90,20 +101,20 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
         ))}
       </main>
       <footer className='game-footer'>
-        <div className='score x-score'>
+        <div className={`score x-score ${flashX ? 'flash' : ''}`}>
           <span>{xText}</span>
           <span>{scores.X}</span>
         </div>
-        <div className='score ties-score'>
+        <div className={`score ties-score ${flashTies ? 'flash' : ''}`}>
           <span>TIES</span>
           <span>{scores.ties}</span>
         </div>
-        <div className='score o-score'>
+        <div className={`score o-score ${flashO ? 'flash' : ''}`}>
           <span>{oText}</span>
           <span>{scores.O}</span>
         </div>
       </footer>
-      <Dialog message={dialogMessage} confirmText={confirmText} cancelText={cancelText} onConfirm={handleNextRound} onCancel={restartGame} isOpen={isDialogOpen} closeOnBackgroundClick={!isGameOver} dialogWinner={dialogWinner} playerChoice={playerChoice} gameMode={gameMode} />
+      <Dialog message={dialogMessage} confirmText={confirmText} cancelText={cancelText} onConfirm={isRestartDialog ? restartGame : handleNextRound} onCancel={isRestartDialog ? closeDialog : restartGame} isOpen={isDialogOpen} closeOnBackgroundClick={!isGameOver} dialogWinner={dialogWinner} playerChoice={playerChoice} gameMode={gameMode} />
     </div>
   );
 };

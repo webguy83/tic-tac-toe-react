@@ -154,6 +154,10 @@
       border-radius: 1.5rem;
       min-width: 6rem;
 
+      &.flash {
+        animation: score-flash 0.5s ease-in-out;
+      }
+
       span {
         display: block;
         font-size: 1.6rem;
@@ -182,5 +186,15 @@
         background-color: $accent;
       }
     }
+  }
+}
+
+@keyframes score-flash {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
   }
 }
