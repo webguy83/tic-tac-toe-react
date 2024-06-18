@@ -90,12 +90,13 @@
       border-radius: 1.5rem;
       position: relative;
       overflow: hidden;
-      transition: background-color 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
       box-shadow: inset 0px -0.8rem 0px #10212a;
 
       & > img {
         width: 60%;
         margin-top: -0.8rem;
+        transition: transform 0.3s ease-in-out;
       }
 
       &::before {

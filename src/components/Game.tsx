@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../styles/game.scss';
 import iconX from '../assets/icon-x.svg';
 import iconO from '../assets/icon-o.svg';
+import iconXDark from '../assets/icon-x-dark.svg';
+import iconODark from '../assets/icon-o-dark.svg';
 import iconRestart from '../assets/icon-restart.svg';
 import Dialog from './Dialog';
 import { useGameLogic } from '../hooks/useGameLogic';
@@ -96,7 +98,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
       <main className={`board ${isGameOver ? 'game-over' : ''}`}>
         {board.map((value, index) => (
           <button key={index} type='button' className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover`} ${winningSquares.includes(index) ? 'winner' : ''}`} onClick={() => handleSquareClick(index)} title={`Square ${index + 1}`} disabled={!!winner}>
-            {value && <img src={value === 'X' ? iconX : iconO} alt={value} />}
+            {value && <img src={winningSquares.includes(index) ? (value === 'X' ? iconXDark : iconODark) : value === 'X' ? iconX : iconO} alt={value} className='icon' />}
           </button>
         ))}
       </main>
