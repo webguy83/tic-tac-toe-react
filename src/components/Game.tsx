@@ -54,7 +54,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
     if (winner || isGameOver) {
       let message: string;
       let dialogWinner: 'X' | 'O' | null = null;
-      
+
       if (gameMode === 'cpu') {
         message = winner ? `You ${winner === playerChoice ? 'Win!' : 'Lose...'}` : "Round Tied";
       } else {
@@ -115,7 +115,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
           </ThemedButton>
         </div>
       </header>
-      <main className='board'>
+      <main className={`board ${isGameOver ? 'game-over' : ''}`}>
         {board.map((value, index) => (
           <button
             key={index}
@@ -152,6 +152,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
         isOpen={isDialogOpen}
         closeOnBackgroundClick={!isGameOver}
         dialogWinner={dialogWinner}
+        playerChoice={playerChoice}
       />
     </div>
   );

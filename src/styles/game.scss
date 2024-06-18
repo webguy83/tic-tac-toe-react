@@ -74,6 +74,10 @@
     margin: 1.9rem 0;
     width: 100%;
 
+    &.game-over .square {
+      pointer-events: none; // Disable all interactions
+    }
+
     .square {
       aspect-ratio: 1/1;
       background-color: $dark-light;
