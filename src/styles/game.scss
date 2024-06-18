@@ -90,7 +90,7 @@
       border-radius: 1.5rem;
       position: relative;
       overflow: hidden;
-      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       box-shadow: inset 0px -0.8rem 0px #10212a;
 
       & > img {
@@ -136,9 +136,16 @@
         }
       }
 
-      &.winner {
-        background-color: lighten($primary, 20%);
-        transition: background-color 0.3s ease-in-out;
+      &.winner-x {
+        background-color: $primary;
+        box-shadow: inset 0px -0.8rem 0px #118c87;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      &.winner-o {
+        background-color: $accent;
+        box-shadow: inset 0px -0.8rem 0px #cc8b13;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       }
     }
   }

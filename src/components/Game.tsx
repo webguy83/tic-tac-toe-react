@@ -49,7 +49,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
           openDialog(`Player ${winner === playerChoice ? '1' : '2'} Wins!`, 'Next Round', 'Quit', winner);
           setFlashX(false);
           setFlashO(false);
-        }, 1000);
+        }, 1500);
       } else {
         updateScore(null);
         setFlashTies(true);
@@ -97,7 +97,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
       </header>
       <main className={`board ${isGameOver ? 'game-over' : ''}`}>
         {board.map((value, index) => (
-          <button key={index} type='button' className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover`} ${winningSquares.includes(index) ? 'winner' : ''}`} onClick={() => handleSquareClick(index)} title={`Square ${index + 1}`} disabled={!!winner}>
+          <button key={index} type='button' className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover`} ${value && winningSquares.includes(index) ? `winner winner-${value.toLowerCase()}` : ''}`} onClick={() => handleSquareClick(index)} title={`Square ${index + 1}`} disabled={!!winner}>
             {value && <img src={winningSquares.includes(index) ? (value === 'X' ? iconXDark : iconODark) : value === 'X' ? iconX : iconO} alt={value} className='icon' />}
           </button>
         ))}
