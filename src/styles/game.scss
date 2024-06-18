@@ -75,7 +75,7 @@
     width: 100%;
 
     &.game-over .square {
-      pointer-events: none; // Disable all interactions
+      pointer-events: none;
     }
 
     .square {
@@ -203,6 +203,6 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.3);
   }
 }

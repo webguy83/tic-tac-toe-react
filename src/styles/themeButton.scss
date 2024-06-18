@@ -10,12 +10,14 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
   &.primary {
     background-color: $accent;
     color: $dark;
     box-shadow: inset 0px -0.4rem 0px #cc8b13;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background-color: $accent-light;
     }
   }
@@ -23,7 +25,8 @@
   &.secondary {
     background-color: $primary;
     color: $dark;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background-color: $secondary;
     }
   }
@@ -32,8 +35,14 @@
     background-color: $grey;
     color: $dark;
     box-shadow: inset 0px -0.4rem 0px #6b8997;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background-color: $grey-light;
     }
+  }
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
   }
 }

@@ -10,7 +10,7 @@ interface ThemedButtonProps {
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({ children, onClick, variant, disabled = false }) => {
   return (
-    <button type='button' className={`themed-button ${variant}`} onClick={onClick} disabled={disabled}>
+    <button type='button' className={`themed-button ${variant} ${disabled ? 'disabled' : ''}`} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

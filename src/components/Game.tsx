@@ -90,7 +90,7 @@ const Game: React.FC<GameProps> = ({ restartGame, playerChoice, gameMode }) => {
           <span>TURN</span>
         </div>
         <div className='button-container'>
-          <ThemedButton onClick={handleOpenDialog} variant='tertiary'>
+          <ThemedButton onClick={handleOpenDialog} variant='tertiary' disabled={isGameOver}>
             <img src={iconRestart} alt='Restart' className='icon restart' />
           </ThemedButton>
         </div>
