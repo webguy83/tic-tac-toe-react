@@ -75,7 +75,7 @@
     width: 100%;
 
     &.game-over .square {
-      pointer-events: none;
+      pointer-events: none; // Disable all interactions
     }
 
     .square {
@@ -147,6 +147,13 @@
         box-shadow: inset 0px -0.8rem 0px #cc8b13;
         transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       }
+
+      &.disable-hover {
+        &::before {
+          opacity: 0 !important;
+        }
+        cursor: default;
+      }
     }
   }
 
@@ -203,6 +210,6 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.3);
+    transform: scale(1.2);
   }
 }

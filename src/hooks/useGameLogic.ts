@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { checkWinner } from '../utils/gameUtils';
 
 interface GameLogicParams {
   playerChoice: 'X' | 'O';
@@ -10,20 +11,6 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
   const [winner, setWinner] = useState<'X' | 'O' | null>(null);
   const [winningSquares, setWinningSquares] = useState<number[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
-
-  const winConditions = useMemo(
-    () => [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ],
-    []
-  );
 
   const resetBoard = useCallback(() => {
     setBoard(Array(9).fill(null));
@@ -37,26 +24,6 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
     resetBoard();
   }, [playerChoice, resetBoard]);
 
-  const checkWinner = useCallback(() => {
-    for (const condition of winConditions) {
-      const [a, b, c] = condition;
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        setWinner(board[a]);
-        setWinningSquares(condition);
-        setIsGameOver(true);
-        return { winner: board[a], winningSquares: condition };
-      }
-    }
-    if (!board.includes(null) && !winner) {
-      setIsGameOver(true);
-    }
-    return null;
-  }, [board, winConditions, winner]);
-
-  useEffect(() => {
-    checkWinner();
-  }, [board, checkWinner]);
-
   const handleSquareClick = (index: number) => {
     if (board[index] || winner) return;
 
@@ -66,9 +33,20 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
     setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
   };
 
+  useEffect(() => {
+    const { winner, winningSquares } = checkWinner(board);
+    if (winner || !board.includes(null)) {
+      setWinner(winner);
+      setWinningSquares(winningSquares);
+      setIsGameOver(true);
+    }
+  }, [board]);
+
   return {
     currentPlayer,
+    setCurrentPlayer, // Added this
     board,
+    setBoard, // Added this
     winner,
     winningSquares,
     isGameOver,
