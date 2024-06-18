@@ -25,11 +25,7 @@ const App: React.FC = () => {
       <TransitionGroup component={null}>
         {gameStarted ? (
           <CSSTransition key='game' timeout={300} classNames='fade'>
-            <Game
-              restartGame={restartGame}
-              playerChoice={playerChoice}
-              gameMode={gameMode}
-            />
+            <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} />
           </CSSTransition>
         ) : (
           <CSSTransition key='mainMenu' timeout={300} classNames='fade'>

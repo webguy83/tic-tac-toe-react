@@ -11,15 +11,23 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
   const [winningSquares, setWinningSquares] = useState<number[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
 
-  const winConditions = useMemo(() => [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-    [0, 4, 8], [2, 4, 6]  // diagonals
-  ], []);
+  const winConditions = useMemo(
+    () => [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ],
+    []
+  );
 
   const resetBoard = useCallback(() => {
     setBoard(Array(9).fill(null));
-    setCurrentPlayer('X'); // X always starts
+    setCurrentPlayer('X');
     setWinner(null);
     setWinningSquares([]);
     setIsGameOver(false);
@@ -50,7 +58,7 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
   }, [board, checkWinner]);
 
   const handleSquareClick = (index: number) => {
-    if (board[index] || winner) return; // Ignore if square is occupied or game has a winner
+    if (board[index] || winner) return;
 
     const newBoard = [...board];
     newBoard[index] = currentPlayer;
