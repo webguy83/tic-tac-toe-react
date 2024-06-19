@@ -6,7 +6,7 @@ export const useDialog = () => {
   const [confirmText, setConfirmText] = useState('');
   const [cancelText, setCancelText] = useState('');
   const [dialogWinner, setDialogWinner] = useState<'X' | 'O' | null>(null);
-  const [isRestartDialog, setIsRestartDialog] = useState(false); // New state for restart dialog
+  const [isRestartDialog, setIsRestartDialog] = useState(false);
 
   const openDialog = useCallback((message: string, confirm: string, cancel: string, winner: 'X' | 'O' | null, isRestart: boolean = false) => {
     setDialogMessage(message);
@@ -27,7 +27,7 @@ export const useDialog = () => {
     confirmText,
     cancelText,
     dialogWinner,
-    isRestartDialog, // Return new state
+    isRestartDialog,
     openDialog,
     closeDialog,
   };

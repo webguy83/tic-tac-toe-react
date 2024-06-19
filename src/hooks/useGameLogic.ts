@@ -44,9 +44,9 @@ export const useGameLogic = ({ playerChoice }: GameLogicParams) => {
 
   return {
     currentPlayer,
-    setCurrentPlayer, // Added this
+    setCurrentPlayer,
     board,
-    setBoard, // Added this
+    setBoard,
     winner,
     winningSquares,
     isGameOver,

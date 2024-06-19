@@ -10,7 +10,6 @@ const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'cpu' | 'player'>('player');
   const [playerChoice, setPlayerChoice] = useState<'X' | 'O'>('X');
 
-  // Create refs for transition elements
   const gameNodeRef = useRef(null);
   const mainMenuNodeRef = useRef(null);
 

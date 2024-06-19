@@ -100,7 +100,7 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
           )}
           <span>TURN</span>
         </div>
-        <div className='button-container'>
+        <div className='button-container' tabIndex={0}>
           <ThemedButton onClick={handleOpenDialog} variant='tertiary' disabled={isGameOver}>
             <img src={iconRestart} alt='Restart' className='icon' />
           </ThemedButton>
