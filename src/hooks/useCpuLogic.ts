@@ -9,6 +9,9 @@ interface CpuLogicParams {
   gameMode: 'cpu' | 'player';
   isGameOver: boolean;
   playerChoice: 'X' | 'O';
+  setWinner: React.Dispatch<React.SetStateAction<'X' | 'O' | null>>;
+  setWinningSquares: React.Dispatch<React.SetStateAction<number[]>>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const minimax = (board: Array<'X' | 'O' | null>, depth: number, isMaximizing: boolean, player: 'X' | 'O', opponent: 'X' | 'O'): number => {
@@ -49,22 +52,37 @@ const findBestMove = (board: Array<'X' | 'O' | null>, player: 'X' | 'O', opponen
   return bestMove;
 };
 
-export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, gameMode, isGameOver, playerChoice }: CpuLogicParams) => {
+export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, gameMode, isGameOver, playerChoice, setWinner, setWinningSquares, setIsGameOver }: CpuLogicParams) => {
   const opponent = playerChoice === 'X' ? 'O' : 'X';
 
   const cpuMove = useCallback(() => {
     if (gameMode === 'cpu' && currentPlayer === opponent && !isGameOver) {
       const bestMove = findBestMove([...board], opponent, playerChoice);
+
       setTimeout(() => {
         setBoard((prevBoard) => {
           const newBoard = [...prevBoard];
           newBoard[bestMove] = opponent;
           return newBoard;
         });
-        setCurrentPlayer(playerChoice);
+
+        // Check for winner after making a move
+        const newBoard = [...board];
+        newBoard[bestMove] = opponent;
+        const { winner, winningSquares } = checkWinner(newBoard);
+
+        if (winner) {
+          setWinner(winner);
+          setWinningSquares(winningSquares);
+          setIsGameOver(true);
+        } else if (!newBoard.includes(null)) {
+          setIsGameOver(true);
+        } else {
+          setCurrentPlayer(playerChoice);
+        }
       }, 1000);
     }
-  }, [board, currentPlayer, opponent, playerChoice, gameMode, isGameOver, setBoard, setCurrentPlayer]);
+  }, [board, currentPlayer, opponent, playerChoice, gameMode, isGameOver, setBoard, setCurrentPlayer, setWinner, setWinningSquares, setIsGameOver]);
 
   useEffect(() => {
     cpuMove();
