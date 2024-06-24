@@ -115,13 +115,13 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
           </ThemedButton>
         </div>
       </header>
-      <main className={`board ${isGameOver ? 'game-over' : ''}`}>
+      <div className={`board ${isGameOver ? 'game-over' : ''}`}>
         {board.map((value, index) => (
           <button key={index} type='button' className={`square ${value ? 'occupied' : `${currentPlayer.toLowerCase()}-hover ${gameMode === 'cpu' && currentPlayer !== playerChoice ? 'disable-hover' : ''}`} ${value && winningSquares.includes(index) ? `winner winner-${value.toLowerCase()}` : ''}`} onClick={() => handleSquareClick(index)} title={`Square ${index + 1}`} disabled={!!winner || (gameMode === 'cpu' && currentPlayer !== playerChoice)}>
             {value && <img src={winningSquares.includes(index) ? (value === 'X' ? iconXDark : iconODark) : value === 'X' ? iconX : iconO} alt={value} className='icon fade-in' />}
           </button>
         ))}
-      </main>
+      </div>
       <footer className='game-footer'>
         <div className={`score x-score ${flashX ? 'flash' : ''}`}>
           <span>{xText}</span>

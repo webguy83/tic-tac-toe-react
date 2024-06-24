@@ -37,22 +37,27 @@ const App: React.FC = () => {
 
   return (
     <div className='App'>
-      <TransitionGroup component={null}>
-        {gameStarted ? (
-          <CSSTransition key='game' timeout={300} classNames='fade' nodeRef={gameNodeRef}>
-            {/* Use React Fragment to avoid adding extra div */}
-            <>
-              <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} ref={gameNodeRef} initialPlayer={initialPlayer} />
-            </>
-          </CSSTransition>
-        ) : (
-          <CSSTransition key='mainMenu' timeout={300} classNames='fade' nodeRef={mainMenuNodeRef}>
-            <>
-              <MainMenu startGame={startGame} ref={mainMenuNodeRef} />
-            </>
-          </CSSTransition>
-        )}
-      </TransitionGroup>
+      <header>
+        <h1 className='sr-only'>Tic Tac Toe Game</h1>
+      </header>
+      <main className='app-main'>
+        <TransitionGroup component={null}>
+          {gameStarted ? (
+            <CSSTransition key='game' timeout={300} classNames='fade' nodeRef={gameNodeRef}>
+              {/* Use React Fragment to avoid adding extra div */}
+              <>
+                <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} ref={gameNodeRef} initialPlayer={initialPlayer} />
+              </>
+            </CSSTransition>
+          ) : (
+            <CSSTransition key='mainMenu' timeout={300} classNames='fade' nodeRef={mainMenuNodeRef}>
+              <>
+                <MainMenu startGame={startGame} ref={mainMenuNodeRef} />
+              </>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
+      </main>
     </div>
   );
 };
