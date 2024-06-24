@@ -68,7 +68,6 @@ export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, 
           return newBoard;
         });
 
-        // Check for winner after making a move
         const newBoard = [...board];
         newBoard[bestMove] = opponent;
         const { winner, winningSquares } = checkWinner(newBoard);

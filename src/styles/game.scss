@@ -76,7 +76,7 @@
     width: 100%;
 
     &.game-over .square {
-      pointer-events: none; // Disable all interactions
+      pointer-events: none;
     }
 
     .square {
@@ -97,7 +97,12 @@
       & > img {
         width: 60%;
         margin-top: -0.8rem;
-        transition: transform 0.3s ease-in-out;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+
+        &.fade-in {
+          opacity: 1;
+        }
       }
 
       &::before {
@@ -213,4 +218,17 @@
   50% {
     transform: scale(1.2);
   }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.5s ease-in-out;
 }
