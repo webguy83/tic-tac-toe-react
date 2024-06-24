@@ -1,46 +1,73 @@
-# Getting Started with Create React App
+# Frontend Mentor - Tic Tac Toe solution
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a solution to the [Tic Tac Toe challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/tic-tac-toe-game-Re7ZF_E2v). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
 
-## Available Scripts
+## Table of contents
 
-In the project directory, you can run:
+- [Frontend Mentor - Tic Tac Toe solution](#frontend-mentor---tic-tac-toe-solution)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+    - [The challenge](#the-challenge)
+    - [Screenshot](#screenshot)
+    - [Links](#links)
+  - [My process](#my-process)
+    - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Continued development](#continued-development)
+    - [Useful resources](#useful-resources)
+  - [Author](#author)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Overview
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### The challenge
 
-### `npm test`
+Users should be able to:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- View the optimal layout for the game depending on their device's screen size
+- See hover states for all interactive elements on the page
+- Play the game either solo vs the computer or multiplayer against another person
+- **Bonus 1**: Save the game state in the browser so that it’s preserved if the player refreshes their browser
+- **Bonus 2**: Instead of having the computer randomly make their moves, try making it clever so it’s proactive in blocking your moves and trying to win
 
-### `npm run build`
+### Screenshot
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](./screenshot.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Links
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Live Site URL: [Tic Tac Toe](https://webguy83.github.io/tic-tac-toe-react/)
 
-### `npm run eject`
+## My process
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Built with
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Semantic HTML5 markup
+- CSS custom properties
+- Flexbox
+- CSS Grid
+- TypeScript
+- [React](https://react.dev/) - JS library
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### What I learned
 
-## Learn More
+During the Tic Tac Toe project, I developed a deeper understanding of the minimax algorithm and its application in creating a challenging CPU opponent. The minimax algorithm is an essential tool in game theory and artificial intelligence, used to evaluate potential game states and determine the best possible move for the CPU. By implementing this algorithm, I learned how to construct a game logic that can effectively anticipate and counter the player's moves, making the gameplay more competitive and engaging. This project provided valuable experience in integrating AI strategies into game development and refining my problem-solving skills to enhance the overall gaming experience.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Continued development
+
+In future projects, I aim to leverage the insights gained from this challenge to build more complex games and further explore advanced coding practices and AI algorithms. I plan to investigate deeper into artificial intelligence techniques, such as neural networks and reinforcement learning, to develop more sophisticated game logic. Additionally, I intend to continue improving my proficiency in modern web development frameworks and tools, ensuring I stay updated with the latest industry trends. This project has set a foundation for me to pursue more ambitious game development tasks and continually improve my technical capabilities.
+
+
+### Useful resources
+
+- [Minimax Algorithm](https://www.freecodecamp.org/news/minimax-algorithm-guide-how-to-create-an-unbeatable-ai/) - Making the CPU intelligent
+
+
+## Author
+
+- Github - [Github](https://github.com/webguy83)
+- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/webguy83)
+- Instagram - [@canadianwebdev83](https://www.instagram.com/canadianwebdev83/)
