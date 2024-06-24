@@ -1,14 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import MainMenu from './components/MainMenu';
 import Game from './components/Game';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './styles/global.scss';
 import './styles/transitions.scss';
+import useLocalStorage from './hooks/useLocalStorage';
+import { Scores } from './utils/types';
 
 const App: React.FC = () => {
-  const [gameStarted, setGameStarted] = useState(false);
-  const [gameMode, setGameMode] = useState<'cpu' | 'player'>('player');
-  const [playerChoice, setPlayerChoice] = useState<'X' | 'O'>('X');
+  const [gameStarted, setGameStarted, removeGameStartedFromStorage] = useLocalStorage('gameStarted', false);
+  const [gameMode, setGameMode, removeGameModeFromStorage] = useLocalStorage<'cpu' | 'player'>('gameMode', 'player');
+  const [playerChoice, setPlayerChoice, removePlayerChoiceFromStorage] = useLocalStorage<'X' | 'O'>('playerChoice', 'X');
+  const [, , removeScoresFromStorage] = useLocalStorage<Scores>('scores', { X: 0, O: 0, ties: 0 });
+  const [, , removeCurrentPlayerFromStorage] = useLocalStorage<'X' | 'O'>('currentPlayer', 'X');
+  const [initialPlayer, setInitialPlayer, removeInitialPlayer] = useLocalStorage<'X' | 'O'>('initialPlayer', 'X');
 
   const gameNodeRef = useRef(null);
   const mainMenuNodeRef = useRef(null);
@@ -17,10 +22,17 @@ const App: React.FC = () => {
     setGameMode(mode);
     setPlayerChoice(choice);
     setGameStarted(true);
+    setInitialPlayer('X');
   };
 
   const restartGame = () => {
     setGameStarted(false);
+    removeInitialPlayer();
+    removeGameStartedFromStorage();
+    removeGameModeFromStorage();
+    removePlayerChoiceFromStorage();
+    removeCurrentPlayerFromStorage();
+    removeScoresFromStorage();
   };
 
   return (
@@ -30,7 +42,7 @@ const App: React.FC = () => {
           <CSSTransition key='game' timeout={300} classNames='fade' nodeRef={gameNodeRef}>
             {/* Use React Fragment to avoid adding extra div */}
             <>
-              <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} ref={gameNodeRef} />
+              <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} ref={gameNodeRef} initialPlayer={initialPlayer} />
             </>
           </CSSTransition>
         ) : (

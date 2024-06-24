@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
+import useLocalStorage from './useLocalStorage';
 
 interface Scores {
   X: number;
@@ -7,19 +8,22 @@ interface Scores {
 }
 
 export const useScoreTracker = () => {
-  const [scores, setScores] = useState<Scores>({ X: 0, O: 0, ties: 0 });
+  const [scores, setScores] = useLocalStorage<Scores>('scores', { X: 0, O: 0, ties: 0 });
 
-  const updateScore = useCallback((winner: 'X' | 'O' | null) => {
-    setScores((prevScores) => {
-      const newScores = { ...prevScores };
-      if (winner) {
-        newScores[winner]++;
-      } else {
-        newScores.ties++;
-      }
-      return newScores;
-    });
-  }, []);
+  const updateScore = useCallback(
+    (winner: 'X' | 'O' | null) => {
+      setScores((prevScores) => {
+        const newScores = { ...prevScores };
+        if (winner) {
+          newScores[winner]++;
+        } else {
+          newScores.ties++;
+        }
+        return newScores;
+      });
+    },
+    [setScores]
+  );
 
   return {
     scores,

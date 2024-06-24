@@ -17,10 +17,11 @@ interface GameProps {
   restartGame: () => void;
   playerChoice: 'X' | 'O';
   gameMode: 'cpu' | 'player';
+  initialPlayer: 'X' | 'O';
 }
 
-const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode }, ref) => {
-  const { currentPlayer, setCurrentPlayer, board, setBoard, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setWinner, setWinningSquares, setIsGameOver } = useGameLogic({ playerChoice, initialPlayer: 'X' });
+const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode, initialPlayer }, ref) => {
+  const { currentPlayer, setCurrentPlayer, board, setBoard, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer } = useGameLogic({ playerChoice, initialPlayer });
 
   const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, isRestartDialog, openDialog, closeDialog } = useDialog();
 
@@ -41,11 +42,12 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
     setWinner,
     setWinningSquares,
     setIsGameOver,
+    initialPlayer,
+    setInitialPlayer,
   });
 
   const handleNextRound = () => {
-    const nextStartingPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    resetBoard(nextStartingPlayer);
+    resetBoard();
     closeDialog();
   };
 
@@ -65,7 +67,7 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
           openDialog(`Player ${winner === playerChoice ? '1' : '2'} Wins!`, 'Next Round', 'Quit', winner);
           setFlashX(false);
           setFlashO(false);
-        }, 1500);
+        }, 1000);
       } else {
         updateScore(null);
         setFlashTies(true);
@@ -85,6 +87,16 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
 
   const { xText, oText } = getFooterText();
 
+  function getTurnIndicatorIcon(currentPlayer: 'X' | 'O', winner: 'X' | 'O' | null, xPath: string, oPath: string, isGameOver: boolean) {
+    const player = currentPlayer === 'X' || winner === 'X' ? 'X' : 'O';
+    const path = player === 'X' ? xPath : oPath;
+    return (
+      <svg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' className='turn-indicator-icon'>
+        <path transform='scale(0.25)' d={path} fillRule='evenodd' />
+      </svg>
+    );
+  }
+
   return (
     <div className={`game ${isGameOver ? 'disabled' : ''}`} ref={ref}>
       {isGameOver && <div className='interaction-overlay' />}
@@ -94,15 +106,7 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
           <img src={iconO} alt='O' className='icon' />
         </div>
         <div className='turn-indicator'>
-          {currentPlayer === 'X' ? (
-            <svg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' className='turn-indicator-icon'>
-              <path transform='scale(0.25)' d={xPath} fillRule='evenodd' />
-            </svg>
-          ) : (
-            <svg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' className='turn-indicator-icon'>
-              <path transform='scale(0.25)' d={oPath} />
-            </svg>
-          )}
+          {getTurnIndicatorIcon(currentPlayer, winner, xPath, oPath, isGameOver)}
           <span>TURN</span>
         </div>
         <div className='button-container' tabIndex={0}>

@@ -1,13 +1,14 @@
-import React, { useState, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import logo from '../assets/logo.svg';
 import '../styles/mainMenu.scss';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 interface MainMenuProps {
   startGame: (mode: 'cpu' | 'player', choice: 'X' | 'O') => void;
 }
 
 const MainMenu = forwardRef<HTMLDivElement, MainMenuProps>(({ startGame }, ref) => {
-  const [playerChoice, setPlayerChoice] = useState<'X' | 'O'>('X');
+  const [playerChoice, setPlayerChoice] = useLocalStorage<'X' | 'O'>('playerChoice', 'X');
 
   const handlePlayerChoice = (choice: 'X' | 'O') => {
     setPlayerChoice(choice);

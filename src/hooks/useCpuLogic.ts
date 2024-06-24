@@ -12,6 +12,8 @@ interface CpuLogicParams {
   setWinner: React.Dispatch<React.SetStateAction<'X' | 'O' | null>>;
   setWinningSquares: React.Dispatch<React.SetStateAction<number[]>>;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  initialPlayer: 'X' | 'O';
+  setInitialPlayer: React.Dispatch<React.SetStateAction<'X' | 'O'>>;
 }
 
 const minimax = (board: Array<'X' | 'O' | null>, depth: number, isMaximizing: boolean, player: 'X' | 'O', opponent: 'X' | 'O'): number => {
@@ -52,7 +54,7 @@ const findBestMove = (board: Array<'X' | 'O' | null>, player: 'X' | 'O', opponen
   return bestMove;
 };
 
-export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, gameMode, isGameOver, playerChoice, setWinner, setWinningSquares, setIsGameOver }: CpuLogicParams) => {
+export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, gameMode, isGameOver, playerChoice, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer, initialPlayer }: CpuLogicParams) => {
   const opponent = playerChoice === 'X' ? 'O' : 'X';
 
   const cpuMove = useCallback(() => {
@@ -75,14 +77,19 @@ export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, 
           setWinner(winner);
           setWinningSquares(winningSquares);
           setIsGameOver(true);
+          setInitialPlayer(initialPlayer === 'X' ? 'O' : 'X');
         } else if (!newBoard.includes(null)) {
           setIsGameOver(true);
-        } else {
-          setCurrentPlayer(playerChoice);
+          setInitialPlayer(initialPlayer === 'X' ? 'O' : 'X');
         }
-      }, 1000);
+        setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+      }, 500);
     }
-  }, [board, currentPlayer, opponent, playerChoice, gameMode, isGameOver, setBoard, setCurrentPlayer, setWinner, setWinningSquares, setIsGameOver]);
+  }, [gameMode, currentPlayer, opponent, isGameOver, board, playerChoice, setBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer, initialPlayer, setCurrentPlayer]);
+
+  useEffect(() => {
+    setCurrentPlayer(initialPlayer);
+  }, [initialPlayer, setCurrentPlayer]);
 
   useEffect(() => {
     cpuMove();
