@@ -119,20 +119,21 @@
         transition: opacity 0.3s ease-in-out;
       }
 
-      &.x-hover::before {
-        background-image: url('../assets/icon-x-outline.svg');
-        background-position-y: 40%;
-      }
+      @media (hover: hover) {
+        &.x-hover::before {
+          background-image: url('../assets/icon-x-outline.svg');
+          background-position-y: 40%;
+        }
 
-      &.o-hover::before {
-        background-image: url('../assets/icon-o-outline.svg');
-        background-position-y: 40%;
-      }
+        &.o-hover::before {
+          background-image: url('../assets/icon-o-outline.svg');
+          background-position-y: 40%;
+        }
 
-      &:hover::before {
-        opacity: 1;
+        &:hover::before {
+          opacity: 1;
+        }
       }
-
       &.occupied {
         background-image: none;
         cursor: default;
