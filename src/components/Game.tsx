@@ -71,8 +71,11 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
       } else {
         updateScore(null);
         setFlashTies(true);
-        openDialog('Round Tied', 'Next Round', 'Quit', null);
-        setFlashTies(false);
+
+        setTimeout(() => {
+          openDialog('Round Tied', 'Next Round', 'Quit', null);
+          setFlashTies(false);
+        }, 1000);
       }
     }
   }, [winner, isGameOver, gameMode, playerChoice, openDialog, updateScore]);

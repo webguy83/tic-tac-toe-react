@@ -40,6 +40,9 @@
       padding: 0.8rem 0.9rem;
 
       .option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 50%;
         padding: 1rem 0;
         color: $grey-light;
