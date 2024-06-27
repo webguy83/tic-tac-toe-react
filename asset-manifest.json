@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tic-tac-toe-react/static/css/main.231933f5.css",
-    "main.js": "/tic-tac-toe-react/static/js/main.e6e6b48b.js",
+    "main.css": "/tic-tac-toe-react/static/css/main.8d52f7bf.css",
+    "main.js": "/tic-tac-toe-react/static/js/main.cfa422f8.js",
     "static/js/453.e036e8b5.chunk.js": "/tic-tac-toe-react/static/js/453.e036e8b5.chunk.js",
     "index.html": "/tic-tac-toe-react/index.html",
     "static/media/icon-x-outline.svg": "/tic-tac-toe-react/static/media/icon-x-outline.a591bdf22fd3be0addcb.svg",
@@ -12,12 +12,12 @@
     "static/media/icon-o-outline.svg": "/tic-tac-toe-react/static/media/icon-o-outline.44ebb2196ec7043f1e17.svg",
     "static/media/icon-o-dark.svg": "/tic-tac-toe-react/static/media/icon-o-dark.ac31c667c91fd7427ebca79614be0cf2.svg",
     "static/media/icon-o.svg": "/tic-tac-toe-react/static/media/icon-o.7608cc08ec6b0a3d77ec15ebb57db3b2.svg",
-    "main.231933f5.css.map": "/tic-tac-toe-react/static/css/main.231933f5.css.map",
-    "main.e6e6b48b.js.map": "/tic-tac-toe-react/static/js/main.e6e6b48b.js.map",
+    "main.8d52f7bf.css.map": "/tic-tac-toe-react/static/css/main.8d52f7bf.css.map",
+    "main.cfa422f8.js.map": "/tic-tac-toe-react/static/js/main.cfa422f8.js.map",
     "453.e036e8b5.chunk.js.map": "/tic-tac-toe-react/static/js/453.e036e8b5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.231933f5.css",
-    "static/js/main.e6e6b48b.js"
+    "static/css/main.8d52f7bf.css",
+    "static/js/main.cfa422f8.js"
   ]
 }
