@@ -87,10 +87,6 @@ export const useCpuLogic = ({ board, currentPlayer, setBoard, setCurrentPlayer, 
   }, [gameMode, currentPlayer, opponent, isGameOver, board, playerChoice, setBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer, initialPlayer, setCurrentPlayer]);
 
   useEffect(() => {
-    setCurrentPlayer(initialPlayer);
-  }, [initialPlayer, setCurrentPlayer]);
-
-  useEffect(() => {
     cpuMove();
   }, [cpuMove]);
 };

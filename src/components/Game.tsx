@@ -21,7 +21,7 @@ interface GameProps {
 }
 
 const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode, initialPlayer }, ref) => {
-  const { currentPlayer, setCurrentPlayer, board, setBoard, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer } = useGameLogic({ playerChoice, initialPlayer });
+  const { currentPlayer, setCurrentPlayer, board, setBoard, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer } = useGameLogic({ playerChoice });
 
   const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, isRestartDialog, openDialog, closeDialog } = useDialog();
 

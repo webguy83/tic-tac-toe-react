@@ -4,7 +4,6 @@ import useLocalStorage from './useLocalStorage';
 
 interface GameLogicParams {
   playerChoice: 'X' | 'O';
-  initialPlayer: 'X' | 'O';
 }
 
 export const useGameLogic = ({ playerChoice }: GameLogicParams) => {

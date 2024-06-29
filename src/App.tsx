@@ -44,7 +44,6 @@ const App: React.FC = () => {
         <TransitionGroup component={null}>
           {gameStarted ? (
             <CSSTransition key='game' timeout={300} classNames='fade' nodeRef={gameNodeRef}>
-              {/* Use React Fragment to avoid adding extra div */}
               <>
                 <Game restartGame={restartGame} playerChoice={playerChoice} gameMode={gameMode} ref={gameNodeRef} initialPlayer={initialPlayer} />
               </>
