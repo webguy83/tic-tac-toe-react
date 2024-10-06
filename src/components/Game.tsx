@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import   { useEffect, useState, forwardRef } from 'react';
 import '../styles/game.scss';
 import iconX from '../assets/icon-x.svg';
 import iconO from '../assets/icon-o.svg';
@@ -10,7 +10,6 @@ import ThemedButton from './ThemeButton';
 import { useGameLogic } from '../hooks/useGameLogic';
 import { useDialog } from '../hooks/useDialog';
 import { useScoreTracker } from '../hooks/useScoreTracker';
-import { useCpuLogic } from '../hooks/useCpuLogic';
 import { oPath, xPath } from '../utils/gameUtils';
 
 interface GameProps {
@@ -20,8 +19,8 @@ interface GameProps {
   initialPlayer: 'X' | 'O';
 }
 
-const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode, initialPlayer }, ref) => {
-  const { currentPlayer, setCurrentPlayer, board, setBoard, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setWinner, setWinningSquares, setIsGameOver, setInitialPlayer } = useGameLogic({ playerChoice });
+const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode }, ref) => {
+  const { currentPlayer, board, winner, winningSquares, isGameOver, handleSquareClick, resetBoard } = useGameLogic();
 
   const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, isRestartDialog, openDialog, closeDialog } = useDialog();
 
@@ -30,21 +29,6 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
   const [flashX, setFlashX] = useState(false);
   const [flashO, setFlashO] = useState(false);
   const [flashTies, setFlashTies] = useState(false);
-
-  useCpuLogic({
-    board,
-    currentPlayer,
-    setBoard,
-    setCurrentPlayer,
-    gameMode,
-    isGameOver,
-    playerChoice,
-    setWinner,
-    setWinningSquares,
-    setIsGameOver,
-    initialPlayer,
-    setInitialPlayer,
-  });
 
   const handleNextRound = () => {
     resetBoard();
