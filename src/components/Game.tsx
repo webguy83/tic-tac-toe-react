@@ -1,4 +1,4 @@
-import   { useEffect, useState, forwardRef } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 import '../styles/game.scss';
 import iconX from '../assets/icon-x.svg';
 import iconO from '../assets/icon-o.svg';
@@ -20,7 +20,7 @@ interface GameProps {
 }
 
 const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice, gameMode }, ref) => {
-  const { currentPlayer, board, winner, winningSquares, isGameOver, handleSquareClick, resetBoard } = useGameLogic();
+  const { currentPlayer, board, winner, winningSquares, isGameOver, handleSquareClick, resetBoard, setCurrentPlayer, initialPlayer } = useGameLogic();
 
   const { isDialogOpen, dialogMessage, confirmText, cancelText, dialogWinner, isRestartDialog, openDialog, closeDialog } = useDialog();
 
@@ -33,6 +33,7 @@ const Game = forwardRef<HTMLDivElement, GameProps>(({ restartGame, playerChoice,
   const handleNextRound = () => {
     resetBoard();
     closeDialog();
+    setCurrentPlayer(initialPlayer);
   };
 
   const handleOpenDialog = () => {

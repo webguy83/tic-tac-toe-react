@@ -19,26 +19,30 @@ export const useGameLogic = () => {
     setIsGameOver(false);
   }, []);
 
-  const handleSquareClick = useCallback((index: number) => {
-    if (board[index] || isGameOver) return;
+  const handleSquareClick = useCallback(
+    (index: number) => {
+      if (board[index] || isGameOver) return;
 
-    const newBoard = [...board];
-    newBoard[index] = currentPlayer;
-    setBoard(newBoard);
+      const newBoard = [...board];
+      newBoard[index] = currentPlayer;
+      setBoard(newBoard);
 
-    const { winner, winningSquares } = checkWinner(newBoard);
+      const { winner, winningSquares } = checkWinner(newBoard);
 
-    if (winner) {
-      setWinner(winner);
-      setWinningSquares(winningSquares);
-      setIsGameOver(true);
-      setInitialPlayer((prev) => (prev === 'X' ? 'O' : 'X'));
-    } else if (!newBoard.includes(null)) {
-      setIsGameOver(true);
-      setInitialPlayer((prev) => (prev === 'X' ? 'O' : 'X'));
-    }
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-  }, [board, currentPlayer, isGameOver, setCurrentPlayer, setInitialPlayer]);
+      if (winner) {
+        setWinner(winner);
+        setWinningSquares(winningSquares);
+        setIsGameOver(true);
+        setInitialPlayer((prev) => (prev === 'X' ? 'O' : 'X'));
+      } else if (!newBoard.includes(null)) {
+        setIsGameOver(true);
+        setInitialPlayer((prev) => (prev === 'X' ? 'O' : 'X'));
+      } else {
+        setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+      }
+    },
+    [board, currentPlayer, isGameOver, setCurrentPlayer, setInitialPlayer]
+  );
 
   useEffect(() => {
     const cpuPlayer = playerChoice === 'X' ? 'O' : 'X';
@@ -47,13 +51,14 @@ export const useGameLogic = () => {
     if (gameMode === 'cpu' && currentPlayer === cpuPlayer && !isGameOver && !winner) {
       const bestMove = findBestMove([...board], cpuPlayer, playerChoice);
       if (bestMove !== -1) {
-        setTimeout(() => handleSquareClick(bestMove), 500); 
+        setTimeout(() => handleSquareClick(bestMove), 500);
       }
     }
   }, [board, currentPlayer, gameMode, winner, isGameOver, initialPlayer, handleSquareClick, playerChoice]);
 
   return {
     currentPlayer,
+    setCurrentPlayer,
     board,
     winner,
     winningSquares,
